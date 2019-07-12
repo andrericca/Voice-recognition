@@ -1,14 +1,25 @@
 import speech_recognition as sr  
 import os
 import datetime
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import sqlite3 as sql
+
 
 
 now = datetime.datetime.now()
 day = str(now.day)
 month = str(now.month)
 year = str(now.year)
-hour= str(now.hour)
+hour = str(now.hour)
 minute = str(now.minute)
+
+temperature={'temp': 11.74, 'temp_max': 15.0, 'temp_min': 10.0, 'temp_kf': None}
+con=sql.connect("voiceapp.db") 
+cur = con.cursor()
+cur.execute("INSERT INTO voice (temperature, time) VALUES (?,?)",(temperature,now))
+con.commit()
+
 
 def calculator():
         os.system("gnome-calculator")
